@@ -9,6 +9,7 @@ import SmartCityMap from './components/SmartCityMap'
 import SystemStatus from './components/SystemStatus'
 import NotificationsPanel from './components/NotificationsPanel'
 import CityTable from './components/CityTable'
+import AIInsights from './components/AIInsights'
 
 import { cityStats } from './data/dashboardData'
 
@@ -50,6 +51,7 @@ function App() {
   }
 
   return (
+
     <div className="flex min-h-screen bg-[#0A0F1C] text-white">
 
       <Sidebar />
@@ -76,7 +78,9 @@ function App() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-10">
 
           <div className="xl:col-span-2">
+
             <AnalyticsChart />
+
           </div>
 
           <ActivityPanel />
@@ -86,7 +90,9 @@ function App() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-10">
 
           <div className="xl:col-span-2">
+
             <SmartCityMap />
+
           </div>
 
           <SystemStatus />
@@ -96,16 +102,25 @@ function App() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-10">
 
           <div className="xl:col-span-2">
+
             <CityTable />
+
           </div>
 
           <NotificationsPanel />
 
         </div>
 
+        <div className="mt-10">
+
+          <AIInsights />
+
+        </div>
+
       </div>
 
     </div>
+
   )
 }
 
