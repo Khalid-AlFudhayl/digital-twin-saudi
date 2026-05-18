@@ -16,6 +16,7 @@ import DecisionCenter from './components/DecisionCenter'
 import AIAssistant from './components/AIAssistant'
 import AIControlCenter from './components/AIControlCenter'
 import AIAnalytics from './components/AIAnalytics'
+import LiveFeed from './components/LiveFeed'
 
 import { cityStats } from './data/dashboardData'
 
@@ -152,6 +153,12 @@ function App() {
         <div className="mt-10">
 
           <AIAnalytics />
+
+        </div>
+
+        <div className="mt-10">
+
+          <LiveFeed />
 
         </div>
 
