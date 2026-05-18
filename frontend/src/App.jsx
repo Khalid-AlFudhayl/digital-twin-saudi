@@ -11,6 +11,7 @@ import NotificationsPanel from './components/NotificationsPanel'
 import CityTable from './components/CityTable'
 import AIInsights from './components/AIInsights'
 import AutomationPanel from './components/AutomationPanel'
+import PredictionPanel from './components/PredictionPanel'
 
 import { cityStats } from './data/dashboardData'
 
@@ -121,6 +122,12 @@ function App() {
         <div className="mt-10">
 
           <AutomationPanel />
+
+        </div>
+
+        <div className="mt-10">
+
+          <PredictionPanel />
 
         </div>
 
