@@ -6,7 +6,8 @@ function AIAssistant() {
 
     {
       sender: 'ai',
-      text: 'مرحبًا، أنا مساعد بصيرة الذكي.'
+      text:
+        'مرحبًا، أنا مساعد بصيرة الذكي. كيف أستطيع مساعدتك اليوم؟'
     }
 
   ])
@@ -61,10 +62,14 @@ function AIAssistant() {
 
       const data = await response.json()
 
+      console.log(data)
+
       const aiMessage = {
 
         sender: 'ai',
-        text: data.reply
+        text:
+          data.reply
+          || 'لم يتم استلام رد من الذكاء الاصطناعي.'
 
       }
 
@@ -79,13 +84,16 @@ function AIAssistant() {
 
     catch (error) {
 
+      console.log(error)
+
       setMessages((prev) => [
 
         ...prev,
 
         {
           sender: 'ai',
-          text: 'حدث خطأ أثناء الاتصال بالذكاء الاصطناعي.'
+          text:
+            'حدث خطأ أثناء الاتصال بالذكاء الاصطناعي.'
         }
 
       ])
@@ -224,7 +232,9 @@ function AIAssistant() {
       </div>
 
     </div>
+
   )
+
 }
 
 export default AIAssistant

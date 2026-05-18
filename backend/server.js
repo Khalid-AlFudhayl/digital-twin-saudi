@@ -34,6 +34,16 @@ let cities = [
 
 ]
 
+let conversationHistory = [
+
+  {
+    role: 'system',
+    content:
+      'أنت مساعد ذكي لمنصة مدن ذكية اسمها بصيرة AI.'
+  }
+
+]
+
 app.get('/', (req, res) => {
 
   res.json({
@@ -104,34 +114,42 @@ app.post('/ai', async (req, res) => {
 
     const { message } = req.body
 
+    conversationHistory.push({
+
+      role: 'user',
+      content: message
+
+    })
+
     const completion =
-  await openai.chat.completions.create({
+      await openai.chat.completions.create({
 
-    model: 'gpt-4.1-mini',
+        model: 'gpt-4.1-mini',
 
-    messages: [
+        messages: conversationHistory
 
-      {
-        role: 'system',
-        content:
-          'أنت مساعد ذكي لمنصة مدن ذكية اسمها بصيرة AI.'
-      },
+      })
 
-      {
-        role: 'user',
-        content: message
-      }
+    console.log(completion)
 
-    ]
+    const aiReply =
+      completion.choices?.[0]?.message?.content
+      || 'لم يتم توليد رد من الذكاء الاصطناعي.'
 
-  })
+    conversationHistory.push({
 
-console.log(completion)
+      role: 'assistant',
+      content: aiReply
 
-const aiReply =
-  completion.choices?.[0]?.message?.content
-  || 'لم يتم توليد رد من الذكاء الاصطناعي.'
-  
+    })
+
+    if (conversationHistory.length > 20) {
+
+      conversationHistory =
+        conversationHistory.slice(-20)
+
+    }
+
     res.json({
 
       reply: aiReply
