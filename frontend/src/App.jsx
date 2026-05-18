@@ -14,6 +14,7 @@ import AutomationPanel from './components/AutomationPanel'
 import PredictionPanel from './components/PredictionPanel'
 import DecisionCenter from './components/DecisionCenter'
 import AIAssistant from './components/AIAssistant'
+import AIControlCenter from './components/AIControlCenter'
 
 import { cityStats } from './data/dashboardData'
 
@@ -47,9 +48,11 @@ function App() {
   if (!isLoggedIn) {
 
     return (
+
       <Login
         onLogin={() => setIsLoggedIn(true)}
       />
+
     )
 
   }
@@ -141,6 +144,12 @@ function App() {
 
         <div className="mt-10">
 
+          <AIControlCenter />
+
+        </div>
+
+        <div className="mt-10 mb-10">
+
           <AIAssistant />
 
         </div>
@@ -150,6 +159,7 @@ function App() {
     </div>
 
   )
+
 }
 
 export default App
