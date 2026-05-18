@@ -1,49 +1,163 @@
-const express = require('express')
-const cors = require('cors')
+import express from 'express'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import OpenAI from 'openai'
 
-const statsRoutes = require('./routes/stats')
-const citiesRoutes = require('./routes/cities')
-const notificationsRoutes = require('./routes/notifications')
+dotenv.config()
 
 const app = express()
-const pool = require('./database/db')
 
 app.use(cors())
 app.use(express.json())
 
-app.use('/stats', statsRoutes)
-app.use('/cities', citiesRoutes)
-app.use('/notifications', notificationsRoutes)
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+})
+
+let cities = [
+
+  {
+    id: 1,
+    city: 'أبها',
+    traffic: '61%',
+    air: '38',
+    status: 'مستقر'
+  },
+
+  {
+    id: 2,
+    city: 'خميس مشيط',
+    traffic: '72%',
+    air: '41',
+    status: 'مزدحم'
+  }
+
+]
 
 app.get('/', (req, res) => {
+
   res.json({
+    success: true,
     message: 'Baseerah AI Backend Running'
   })
+
 })
-app.get('/database-test', async (req, res) => {
+
+app.get('/cities', (req, res) => {
+
+  res.json(cities)
+
+})
+
+app.post('/cities', (req, res) => {
+
+  const newCity = {
+
+    id: Date.now(),
+    ...req.body
+
+  }
+
+  cities.push(newCity)
+
+  res.json(newCity)
+
+})
+
+app.put('/cities/:id', (req, res) => {
+
+  const cityId = Number(req.params.id)
+
+  cities = cities.map((city) =>
+
+    city.id === cityId
+      ? { ...city, ...req.body }
+      : city
+
+  )
+
+  res.json({
+    success: true
+  })
+
+})
+
+app.delete('/cities/:id', (req, res) => {
+
+  const cityId = Number(req.params.id)
+
+  cities = cities.filter(
+
+    (city) => city.id !== cityId
+
+  )
+
+  res.json({
+    success: true
+  })
+
+})
+
+app.post('/ai', async (req, res) => {
 
   try {
 
-    const result = await pool.query('SELECT NOW()')
+    const { message } = req.body
 
+    const completion =
+  await openai.chat.completions.create({
+
+    model: 'gpt-4.1-mini',
+
+    messages: [
+
+      {
+        role: 'system',
+        content:
+          'أنت مساعد ذكي لمنصة مدن ذكية اسمها بصيرة AI.'
+      },
+
+      {
+        role: 'user',
+        content: message
+      }
+
+    ]
+
+  })
+
+console.log(completion)
+
+const aiReply =
+  completion.choices?.[0]?.message?.content
+  || 'لم يتم توليد رد من الذكاء الاصطناعي.'
+  
     res.json({
-      success: true,
-      time: result.rows[0]
+
+      reply: aiReply
+
     })
 
-  } catch (error) {
+  }
 
-    res.json({
-      success: false,
-      error: error.message
+  catch (error) {
+
+    console.log(error)
+
+    res.status(500).json({
+
+      error: 'AI request failed'
+
     })
 
   }
 
 })
 
-const PORT = 5000
+app.listen(5000, () => {
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+  console.log(
+    'Server running on port 5000'
+  )
+
 })

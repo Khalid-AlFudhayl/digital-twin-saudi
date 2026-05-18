@@ -6,14 +6,16 @@ function AIAssistant() {
 
     {
       sender: 'ai',
-      text: 'مرحبًا، أنا مساعد بصيرة الذكي. كيف يمكنني مساعدتك اليوم؟'
+      text: 'مرحبًا، أنا مساعد بصيرة الذكي.'
     }
 
   ])
 
   const [input, setInput] = useState('')
 
-  const handleSend = () => {
+  const [loading, setLoading] = useState(false)
+
+  const handleSend = async () => {
 
     if (!input.trim()) return
 
@@ -24,52 +26,73 @@ function AIAssistant() {
 
     }
 
-    let aiResponse = ''
-
-    if (input.includes('ازدحام')) {
-
-      aiResponse =
-        'تشير التحليلات الحالية إلى ارتفاع الكثافة المرورية شمال أبها.'
-
-    }
-
-    else if (input.includes('الطاقة')) {
-
-      aiResponse =
-        'النظام يرصد استقرارًا عامًا في استهلاك الطاقة حاليًا.'
-
-    }
-
-    else if (input.includes('الهواء')) {
-
-      aiResponse =
-        'جودة الهواء مستقرة مع توقعات بتحسن إضافي مساءً.'
-
-    }
-
-    else {
-
-      aiResponse =
-        'تم تحليل طلبك بنجاح والنظام يعمل بشكل طبيعي.'
-
-    }
-
-    const aiMessage = {
-
-      sender: 'ai',
-      text: aiResponse
-
-    }
-
     setMessages((prev) => [
 
       ...prev,
-      userMessage,
-      aiMessage
+      userMessage
 
     ])
 
     setInput('')
+
+    setLoading(true)
+
+    try {
+
+      const response = await fetch(
+
+        'http://localhost:5000/ai',
+
+        {
+
+          method: 'POST',
+
+          headers: {
+            'Content-Type': 'application/json'
+          },
+
+          body: JSON.stringify({
+            message: input
+          })
+
+        }
+
+      )
+
+      const data = await response.json()
+
+      const aiMessage = {
+
+        sender: 'ai',
+        text: data.reply
+
+      }
+
+      setMessages((prev) => [
+
+        ...prev,
+        aiMessage
+
+      ])
+
+    }
+
+    catch (error) {
+
+      setMessages((prev) => [
+
+        ...prev,
+
+        {
+          sender: 'ai',
+          text: 'حدث خطأ أثناء الاتصال بالذكاء الاصطناعي.'
+        }
+
+      ])
+
+    }
+
+    setLoading(false)
 
   }
 
@@ -92,7 +115,7 @@ function AIAssistant() {
           </h2>
 
           <p className="text-gray-400 mt-2">
-            تفاعل مباشر مع النظام الذكي
+            ذكاء اصطناعي حقيقي مباشر
           </p>
 
         </div>
@@ -106,7 +129,7 @@ function AIAssistant() {
           py-2
           rounded-2xl
         ">
-          AI ASSISTANT
+          LIVE AI
         </div>
 
       </div>
@@ -151,6 +174,16 @@ function AIAssistant() {
           </div>
 
         ))}
+
+        {loading && (
+
+          <div className="text-cyan-400">
+
+            الذكاء الاصطناعي يكتب...
+
+          </div>
+
+        )}
 
       </div>
 
