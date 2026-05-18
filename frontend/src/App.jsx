@@ -13,6 +13,7 @@ import AIInsights from './components/AIInsights'
 import AutomationPanel from './components/AutomationPanel'
 import PredictionPanel from './components/PredictionPanel'
 import DecisionCenter from './components/DecisionCenter'
+import AIAssistant from './components/AIAssistant'
 
 import { cityStats } from './data/dashboardData'
 
@@ -135,6 +136,12 @@ function App() {
         <div className="mt-10">
 
           <DecisionCenter />
+
+        </div>
+
+        <div className="mt-10">
+
+          <AIAssistant />
 
         </div>
 
