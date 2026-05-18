@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react'
+
 import AddCityForm from './AddCityForm'
+import EditCityModal from './EditCityModal'
 
 function CityTable() {
 
   const [cities, setCities] = useState([])
-  const [editingId, setEditingId] = useState(null)
-  const [editData, setEditData] = useState({
-    city: '',
-    traffic: '',
-    air: '',
-    status: ''
-  })
+
+  const [selectedCity, setSelectedCity] = useState(null)
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const fetchCities = () => {
 
@@ -19,7 +18,9 @@ function CityTable() {
       .then((response) => response.json())
 
       .then((data) => {
+
         setCities(data)
+
       })
 
   }
@@ -28,50 +29,31 @@ function CityTable() {
 
     fetchCities()
 
+    const interval = setInterval(() => {
+
+      fetchCities()
+
+    }, 5000)
+
+    return () => clearInterval(interval)
+
   }, [])
 
   const deleteCity = async (id) => {
 
     await fetch(`http://localhost:5000/cities/${id}`, {
-
       method: 'DELETE'
-
     })
 
     fetchCities()
 
   }
 
-  const startEdit = (city) => {
+  const openEditModal = (city) => {
 
-    setEditingId(city.id)
+    setSelectedCity(city)
 
-    setEditData({
-      city: city.city,
-      traffic: city.traffic,
-      air: city.air,
-      status: city.status
-    })
-
-  }
-
-  const saveEdit = async (id) => {
-
-    await fetch(`http://localhost:5000/cities/${id}`, {
-
-      method: 'PUT',
-
-      headers: {
-        'Content-Type': 'application/json'
-      },
-
-      body: JSON.stringify(editData)
-
-    })
-
-    setEditingId(null)
-
-    fetchCities()
+    setIsModalOpen(true)
 
   }
 
@@ -80,11 +62,41 @@ function CityTable() {
 
       <AddCityForm refreshCities={fetchCities} />
 
-      <div className="bg-[#0D1B2A] border border-cyan-900 rounded-3xl p-6">
+      <div className="
+        bg-[#0D1B2A]
+        border
+        border-cyan-900
+        rounded-3xl
+        p-6
+      ">
 
-        <h2 className="text-2xl font-bold mb-6">
-          بيانات المدن
-        </h2>
+        <div className="flex justify-between items-center mb-6">
+
+          <div>
+
+            <h2 className="text-2xl font-bold">
+              بيانات المدن
+            </h2>
+
+            <p className="text-gray-400 mt-2">
+              تحديث مباشر كل 5 ثواني
+            </p>
+
+          </div>
+
+          <div className="
+            bg-green-500/20
+            border
+            border-green-500/30
+            text-green-400
+            px-4
+            py-2
+            rounded-2xl
+          ">
+            LIVE
+          </div>
+
+        </div>
 
         <table className="w-full">
 
@@ -109,11 +121,7 @@ function CityTable() {
               </th>
 
               <th className="text-right py-4">
-                تعديل
-              </th>
-
-              <th className="text-right py-4">
-                حذف
+                التحكم
               </th>
 
             </tr>
@@ -130,116 +138,31 @@ function CityTable() {
               >
 
                 <td className="py-4">
-
-                  {editingId === city.id ? (
-
-                    <input
-                      value={editData.city}
-                      onChange={(e) =>
-                        setEditData({
-                          ...editData,
-                          city: e.target.value
-                        })
-                      }
-                      className="bg-[#08111F] p-2 rounded-xl"
-                    />
-
-                  ) : (
-                    city.city
-                  )}
-
+                  {city.city}
                 </td>
 
                 <td className="py-4">
-
-                  {editingId === city.id ? (
-
-                    <input
-                      value={editData.traffic}
-                      onChange={(e) =>
-                        setEditData({
-                          ...editData,
-                          traffic: e.target.value
-                        })
-                      }
-                      className="bg-[#08111F] p-2 rounded-xl"
-                    />
-
-                  ) : (
-                    city.traffic
-                  )}
-
+                  {city.traffic}
                 </td>
 
                 <td className="py-4">
-
-                  {editingId === city.id ? (
-
-                    <input
-                      value={editData.air}
-                      onChange={(e) =>
-                        setEditData({
-                          ...editData,
-                          air: e.target.value
-                        })
-                      }
-                      className="bg-[#08111F] p-2 rounded-xl"
-                    />
-
-                  ) : (
-                    city.air
-                  )}
-
+                  {city.air}
                 </td>
 
                 <td className="py-4 text-cyan-400">
-
-                  {editingId === city.id ? (
-
-                    <input
-                      value={editData.status}
-                      onChange={(e) =>
-                        setEditData({
-                          ...editData,
-                          status: e.target.value
-                        })
-                      }
-                      className="bg-[#08111F] p-2 rounded-xl"
-                    />
-
-                  ) : (
-                    city.status
-                  )}
-
+                  {city.status}
                 </td>
 
                 <td className="py-4">
 
-                  {editingId === city.id ? (
+                  <div className="flex gap-3">
 
                     <button
-                      onClick={() => saveEdit(city.id)}
-                      className="
-                        bg-green-500/20
-                        border
-                        border-green-500/40
-                        text-green-400
-                        px-4
-                        py-2
-                        rounded-xl
-                      "
-                    >
-                      حفظ
-                    </button>
-
-                  ) : (
-
-                    <button
-                      onClick={() => startEdit(city)}
+                      onClick={() => openEditModal(city)}
                       className="
                         bg-cyan-500/20
                         border
-                        border-cyan-500/40
+                        border-cyan-500/30
                         text-cyan-400
                         px-4
                         py-2
@@ -249,26 +172,22 @@ function CityTable() {
                       تعديل
                     </button>
 
-                  )}
+                    <button
+                      onClick={() => deleteCity(city.id)}
+                      className="
+                        bg-red-500/20
+                        border
+                        border-red-500/30
+                        text-red-400
+                        px-4
+                        py-2
+                        rounded-xl
+                      "
+                    >
+                      حذف
+                    </button>
 
-                </td>
-
-                <td className="py-4">
-
-                  <button
-                    onClick={() => deleteCity(city.id)}
-                    className="
-                      bg-red-500/20
-                      border
-                      border-red-500/40
-                      text-red-400
-                      px-4
-                      py-2
-                      rounded-xl
-                    "
-                  >
-                    حذف
-                  </button>
+                  </div>
 
                 </td>
 
@@ -281,6 +200,16 @@ function CityTable() {
         </table>
 
       </div>
+
+      {isModalOpen && (
+
+        <EditCityModal
+          city={selectedCity}
+          closeModal={() => setIsModalOpen(false)}
+          refreshCities={fetchCities}
+        />
+
+      )}
 
     </div>
   )
