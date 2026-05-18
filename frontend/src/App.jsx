@@ -10,6 +10,7 @@ import SystemStatus from './components/SystemStatus'
 import NotificationsPanel from './components/NotificationsPanel'
 import CityTable from './components/CityTable'
 import AIInsights from './components/AIInsights'
+import AutomationPanel from './components/AutomationPanel'
 
 import { cityStats } from './data/dashboardData'
 
@@ -114,6 +115,12 @@ function App() {
         <div className="mt-10">
 
           <AIInsights />
+
+        </div>
+
+        <div className="mt-10">
+
+          <AutomationPanel />
 
         </div>
 
