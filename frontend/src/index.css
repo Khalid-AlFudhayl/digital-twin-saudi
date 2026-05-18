@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Tajawal', sans-serif;
+
+  background:
+    radial-gradient(circle at top left, #00E6FF22, transparent 25%),
+    radial-gradient(circle at bottom right, #00C89622, transparent 25%),
+    #0A0F1C;
+
+  color:white;
+}
+
+.glow{
+  box-shadow:
+    0 0 20px rgba(0,230,255,0.15),
+    0 0 40px rgba(0,230,255,0.08);
+}
