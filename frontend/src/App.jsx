@@ -18,6 +18,7 @@ import AIControlCenter from './components/AIControlCenter'
 import AIAnalytics from './components/AIAnalytics'
 import LiveFeed from './components/LiveFeed'
 import CommandCenter from './components/CommandCenter'
+import SecurityCenter from './components/SecurityCenter'
 
 import { cityStats } from './data/dashboardData'
 
@@ -166,6 +167,12 @@ function App() {
         <div className="mt-10">
 
           <CommandCenter />
+
+        </div>
+
+        <div className="mt-10">
+
+          <SecurityCenter />
 
         </div>
 
