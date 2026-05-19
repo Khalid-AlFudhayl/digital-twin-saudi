@@ -24,6 +24,7 @@ import InfrastructureCenter from './components/InfrastructureCenter'
 import NationalOperations from './components/NationalOperations'
 import GovernanceCenter from './components/GovernanceCenter'
 import IntelligenceCore from './components/IntelligenceCore'
+import AIEcosystem from './components/AIEcosystem'
 
 import { cityStats } from './data/dashboardData'
 
@@ -94,9 +95,7 @@ function App() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-10">
 
           <div className="xl:col-span-2">
-
             <AnalyticsChart />
-
           </div>
 
           <ActivityPanel />
@@ -106,9 +105,7 @@ function App() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-10">
 
           <div className="xl:col-span-2">
-
             <SmartCityMap />
-
           </div>
 
           <SystemStatus />
@@ -118,9 +115,7 @@ function App() {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-10">
 
           <div className="xl:col-span-2">
-
             <CityTable />
-
           </div>
 
           <NotificationsPanel />
@@ -128,93 +123,67 @@ function App() {
         </div>
 
         <div className="mt-10">
-
           <AIInsights />
-
         </div>
 
         <div className="mt-10">
-
           <AutomationPanel />
-
         </div>
 
         <div className="mt-10">
-
           <PredictionPanel />
-
         </div>
 
         <div className="mt-10">
-
           <DecisionCenter />
-
         </div>
 
         <div className="mt-10">
-
           <AIControlCenter />
-
         </div>
 
         <div className="mt-10">
-
           <AIAnalytics />
-
         </div>
 
         <div className="mt-10">
-
           <LiveFeed />
-
         </div>
 
         <div className="mt-10">
-
           <CommandCenter />
-
         </div>
 
         <div className="mt-10">
-
           <SecurityCenter />
-
         </div>
 
         <div className="mt-10">
-
           <EmergencyCenter />
-
         </div>
 
         <div className="mt-10">
-
           <InfrastructureCenter />
-
         </div>
 
         <div className="mt-10">
-
           <NationalOperations />
-
         </div>
 
         <div className="mt-10">
-
           <GovernanceCenter />
-
         </div>
 
         <div className="mt-10">
-
           <IntelligenceCore />
+        </div>
 
+        <div className="mt-10">
+          <AIEcosystem />
         </div>
 
         <div className="mt-10 mb-10">
-
           <AIAssistant />
-
         </div>
 
       </div>
