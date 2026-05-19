@@ -23,6 +23,7 @@ import EmergencyCenter from './components/EmergencyCenter'
 import InfrastructureCenter from './components/InfrastructureCenter'
 import NationalOperations from './components/NationalOperations'
 import GovernanceCenter from './components/GovernanceCenter'
+import IntelligenceCore from './components/IntelligenceCore'
 
 import { cityStats } from './data/dashboardData'
 
@@ -201,6 +202,12 @@ function App() {
         <div className="mt-10">
 
           <GovernanceCenter />
+
+        </div>
+
+        <div className="mt-10">
+
+          <IntelligenceCore />
 
         </div>
 
