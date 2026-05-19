@@ -20,6 +20,7 @@ import LiveFeed from './components/LiveFeed'
 import CommandCenter from './components/CommandCenter'
 import SecurityCenter from './components/SecurityCenter'
 import EmergencyCenter from './components/EmergencyCenter'
+import InfrastructureCenter from './components/InfrastructureCenter'
 
 import { cityStats } from './data/dashboardData'
 
@@ -180,6 +181,12 @@ function App() {
         <div className="mt-10">
 
           <EmergencyCenter />
+
+        </div>
+
+        <div className="mt-10">
+
+          <InfrastructureCenter />
 
         </div>
 
